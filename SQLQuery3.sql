@@ -1,4 +1,4 @@
--- ≈‰‘«¡ ﬁ«⁄œ… «·»Ì«‰« 
+-- Create the database
 CREATE DATABASE section1
 ON PRIMARY
 (
@@ -17,8 +17,7 @@ LOG ON
    MAXSIZE = UNLIMITED
 );
 
-
---  ≈÷«›… „·› À«‰ÊÌ «·«Ê·
+-- Add the first secondary file
 ALTER DATABASE section1
 ADD FILE
 (
@@ -29,9 +28,7 @@ ADD FILE
    MAXSIZE = 50MB
 );
 
-
-
--- ≈÷«›… «·„·› «·À«‰ÊÌ «·À«‰Ì
+-- Add the second secondary file
 ALTER DATABASE section1
 ADD FILE
 (
@@ -42,8 +39,7 @@ ADD FILE
    MAXSIZE = 100MB      
 );
 
-
---  ⁄œÌ· ÕÃ„ «·„·› «·À«‰ÊÌ 
+-- Modify the size of the secondary file
 ALTER DATABASE section1
 MODIFY FILE
 (
@@ -51,23 +47,18 @@ MODIFY FILE
    SIZE = 100MB
 );
 
-
--- Õ–› «·„·› «·À«‰ÊÌ
+-- Remove the secondary file
 ALTER DATABASE section1
 REMOVE FILE "section_sec";
 
+-- If the file is not empty and cannot be removed
+DBCC SHRINKFILE(section_sec, EMPTYFILE)
 
--- «Õ“› ﬂ· database
+-- Drop the entire database
+DROP DATABASE section1
 
--- ·Ê «·›«Ì· » «⁄Ì „‘ ›«÷Ì Ê„‘ —«÷Ì Ì„”ÕÂ
-DBCC shrinkfile(section_sec,emptyfile)
-
-drop database section1 -- delete whole database
-
-
--- ÿ»«⁄… »Ì«‰«  «·„·›« 
+-- Display the database files
 SELECT * FROM sys.database_files;
-
 
 
 
